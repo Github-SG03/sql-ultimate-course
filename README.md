@@ -28,7 +28,7 @@ sql-ultimate-course/
 
 ---
 
-## ☕ Stay Connected
+## ☕ Stay Connected ahaed
 
 Let's stay in touch! Feel free to connect with me on the following platforms:
 
