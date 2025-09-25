@@ -34,6 +34,10 @@
    SELECT ALL COLUMNS
 =============================================================================== */
 
+--use the mydatabase
+USE mydatabase
+Go;
+
 -- Retrieve All Customer Data
 SELECT *
 FROM customers
@@ -58,9 +62,9 @@ FROM customers
 =============================================================================== */
 
 -- Retrieve customers with a score not equal to 0
-SELECT *
-FROM customers
-WHERE score != 0
+SELECT *       --clause: select * ,keyword:select
+FROM customers --cluause: customers, keyword:from
+WHERE score != 0  --clause: where score !=0, keyword: where
 
 -- Retrieve customers from Germany
 SELECT *
@@ -195,6 +199,20 @@ ORDER BY score ASC
 SELECT TOP 2 *
 FROM orders
 ORDER BY order_date DESC
+
+
+/* ==============================================================================
+   OFFSET/FETCH
+=============================================================================== */
+SELECT
+    *
+FROM
+    orders
+ORDER BY
+    order_date DESC
+OFFSET 10 ROWS 
+FETCH NEXT 10 ROWS ONLY;
+
 
 /* ==============================================================================
    All Together

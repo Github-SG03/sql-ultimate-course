@@ -8,6 +8,7 @@
      1. INSERT - Adding Data to Tables
      2. UPDATE - Modifying Existing Data
      3. DELETE - Removing Data from Tables
+     4. MERGE  - Merging two Tables
 =================================================================================
 */
 
