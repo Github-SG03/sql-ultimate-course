@@ -17,6 +17,9 @@
 =============================================================================== */
 /* #1 Method: Manual INSERT using VALUES */
 -- Insert new records into the customers table
+use MyDatabase;
+go
+
 INSERT INTO customers (id, first_name, country, score)
 VALUES 
     (6, 'Anna', 'USA', NULL),
@@ -99,3 +102,50 @@ DELETE FROM persons
 
 -- Faster method to delete all rows, especially useful for large tables
 TRUNCATE TABLE persons
+
+/* ============================================================================== 
+   MERGE
+=============================================================================== */
+-- Demo setup
+USE tempdb;
+GO
+IF OBJECT_ID('dbo.Target', 'U') IS NOT NULL DROP TABLE dbo.Target;
+IF OBJECT_ID('dbo.Source', 'U') IS NOT NULL DROP TABLE dbo.Source;
+
+CREATE TABLE dbo.Target (
+  id INT PRIMARY KEY,
+  name VARCHAR(50),
+  amount DECIMAL(10,2)
+);
+
+CREATE TABLE dbo.Source (
+  id INT PRIMARY KEY,
+  name VARCHAR(50),
+  amount DECIMAL(10,2)
+);
+
+INSERT dbo.Target(id,name,amount) VALUES
+ (1,'A',10.00),(2,'B',20.00),(3,'C',30.00);
+
+INSERT dbo.Source(id,name,amount) VALUES
+ (1,'A',10.00),              -- same as target -> UPDATE does nothing
+ (3,'C updated',35.00),      -- exists in both -> UPDATE
+ (4,'D new',40.00);          -- only in source -> INSERT
+
+-- MERGE: sync Target to Source by id
+BEGIN TRAN
+
+MERGE dbo.Target AS t
+USING dbo.Source AS s
+  ON s.id = t.id
+WHEN MATCHED THEN
+  UPDATE SET t.name = s.name, t.amount = s.amount      -- rows 1,3
+WHEN NOT MATCHED BY TARGET THEN
+  INSERT (id,name,amount) VALUES (s.id,s.name,s.amount) -- row 4
+WHEN NOT MATCHED BY SOURCE THEN
+  DELETE;                                               -- row 2 is deleted
+
+COMMIT TRAN
+
+
+SELECT * FROM dbo.Target;  -- Result: {1 A 10.00}, {3 C updated 35.00}, {4 D new 40.00}
