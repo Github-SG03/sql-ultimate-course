@@ -37,7 +37,10 @@
 --use the mydatabase
 USE mydatabase
 Go;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 05d602a (commit)
 -- Retrieve All Customer Data
 SELECT *
 FROM customers

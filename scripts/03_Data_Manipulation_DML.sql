@@ -8,7 +8,11 @@
      1. INSERT - Adding Data to Tables
      2. UPDATE - Modifying Existing Data
      3. DELETE - Removing Data from Tables
+<<<<<<< HEAD
      4. MERGE  - Merging two Tables
+=======
+     4. MERGE  - Merging Data from two tables 
+>>>>>>> 05d602a (commit)
 =================================================================================
 */
 

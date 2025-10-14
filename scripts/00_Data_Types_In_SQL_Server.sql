@@ -221,7 +221,11 @@ INSERT dbo.DateTimeTypes
     (DateOnly, TimeOnly, DateTime2_7, DateTimeLegacy, SmallDateTimeLegacy, WithTimeZone)
 VALUES
     (CONVERT(date, GETUTCDATE()),
+<<<<<<< HEAD
      SYSDATETIME()::time(7),
+=======
+     CAST(SYSDATETIME() AS TIME(7)),
+>>>>>>> 05d602a (commit)
      SYSDATETIME(),
      GETDATE(),
      CONVERT(smalldatetime, GETDATE()),
