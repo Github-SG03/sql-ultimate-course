@@ -1,7 +1,14 @@
-/* ==============================================================================
-   SQL Stored Procedures
--------------------------------------------------------------------------------
-   This script shows how to work with stored procedures in SQL Server,
+/* ============================SQL Stored Procedures=======================
+   
+   1.A stored procedure is a named, precompiled set of SQL statements stored in the database. You execute itlike a function
+
+   2.Why use SPs:
+    -Reuse Business logic without repeating SQL statements again& again(normal sql query is one time requets to database invloving single interaction(transaction) with database, whereas sp is sored in databsed invloving multiple interation(transaction) with database)
+    -Centralize business rules
+    -Improve security(grant access to SP instead of tables)
+    -Improve performance(cached query execution plans)
+
+   3.This script shows how to work with stored procedures in SQL Server,
    starting from basic implementations and advancing to more sophisticated
    techniques.
 
@@ -12,13 +19,10 @@
      4. Variables
      5. Control Flow with IF/ELSE
      6. Error Handling with TRY/CATCH
-=================================================================================
-*/
-
-/* ==============================================================================
+==========================================================================*/
+/*========================================================================
    Basic Stored Procedure
-============================================================================== */
-
+==========================================================================*/
 -- Define the Stored Procedure
 CREATE PROCEDURE GetCustomerSummary AS
 BEGIN
@@ -32,15 +36,16 @@ GO
 
 --Execute Stored Procedure
 EXEC GetCustomerSummary;
+GO
 
-/* ==============================================================================
-   Parameters in Stored Procedure
-============================================================================== */
+/*=========================================================================
+   Parameters in Stored Procedure(Placeholder for dynamic input in SP)
+===========================================================================*/
 
 -- Edit the Stored Procedure
 ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS
 BEGIN
-    -- Reports: Summary from Customers and Orders
+    -- Query 1: Find the Total Nr. of Customers and the Average Score
     SELECT
         COUNT(*) AS TotalCustomers,
         AVG(Score) AS AvgScore
@@ -53,10 +58,11 @@ GO
 EXEC GetCustomerSummary @Country = 'Germany';
 EXEC GetCustomerSummary @Country = 'USA';
 EXEC GetCustomerSummary;
+GO
 
-/* ==============================================================================
+/*=======================================================================
    Multiple Queries in Stored Procedure
-============================================================================== */
+========================================================================= */
 
 -- Edit the Stored Procedure
 ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS
@@ -83,21 +89,22 @@ GO
 EXEC GetCustomerSummary @Country = 'Germany';
 EXEC GetCustomerSummary @Country = 'USA';
 EXEC GetCustomerSummary;
+GO
 
-/* ==============================================================================
-   Variables in Stored Procedure
-============================================================================== */
+/* ======================================================================
+   Variables in Stored Procedure(ppaceholder to store intermediate results in SP)
+========================================================================== */
 
 -- Edit the Stored Procedure
 ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS
 BEGIN
-    -- Declare Variables
+    --  Query 0:Declare Variables
     DECLARE @TotalCustomers INT, @AvgScore FLOAT;
                 
     -- Query 1: Find the Total Nr. of Customers and the Average Score
     SELECT
-		@TotalCustomers = COUNT(*),
-		@AvgScore = AVG(Score)
+		@TotalCustomers = COUNT(*), -- Assigning the result of COUNT(*) to the variable @TotalCustomers
+		@AvgScore = AVG(Score) -- Assigning the result of AVG(Score) to the variable @AvgScore
     FROM Sales.Customers
     WHERE Country = @Country;
 
@@ -119,14 +126,17 @@ GO
 EXEC GetCustomerSummary @Country = 'Germany';
 EXEC GetCustomerSummary @Country = 'USA';
 EXEC GetCustomerSummary;
+GO
 
 /* ==============================================================================
-   Control Flow IFELSE in Stored Procedure
+   Control Flow IF-ELSE in Stored Procedure
 ============================================================================== */
 
 ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS
 BEGIN
-	-- Declare Variables
+	/* --------------------------------------------------------------------------
+	   Declare Variables
+	-------------------------------------------------------------------------- */
 	DECLARE @TotalCustomers INT, @AvgScore FLOAT;     
 
 	/* --------------------------------------------------------------------------
@@ -147,7 +157,9 @@ BEGIN
 
 	/* --------------------------------------------------------------------------
 	   Generating Reports
-	-------------------------------------------------------------------------- */
+	
+    -------------------------------------------------------------------------- */
+    -- Query 1: Find the Total Nr. of Customers and the Average Score
 	SELECT
 		@TotalCustomers = COUNT(*),
 		@AvgScore = AVG(Score)
@@ -156,7 +168,7 @@ BEGIN
 
 	PRINT('Total Customers from ' + @Country + ':' + CAST(@TotalCustomers AS NVARCHAR));
 	PRINT('Average Score from ' + @Country + ':' + CAST(@AvgScore AS NVARCHAR));
-
+    -- Query 2: Find the Total Nr. of Orders and Total Sales
 	SELECT
 		COUNT(OrderID) AS TotalOrders,
 		SUM(Sales) AS TotalSales,
@@ -165,24 +177,30 @@ BEGIN
 	JOIN Sales.Customers AS c
 		ON c.CustomerID = o.CustomerID
 	WHERE c.Country = @Country;
+
 END
 GO
+
+
 
 --Execute Stored Procedure
 EXEC GetCustomerSummary @Country = 'Germany';
 EXEC GetCustomerSummary @Country = 'USA';
 EXEC GetCustomerSummary;
+GO
 
 /* ==============================================================================
    Error Handling TRY CATCH in Stored Procedure
 ============================================================================== */
 
-ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS
-    
+ALTER PROCEDURE GetCustomerSummary @Country NVARCHAR(50) = 'USA' AS   
 BEGIN
     BEGIN TRY
-        -- Declare Variables
+        /* --------------------------------------------------------------------------
+           Declare Variables
+        -------------------------------------------------------------------------- */
         DECLARE @TotalCustomers INT, @AvgScore FLOAT;     
+
 
         /* --------------------------------------------------------------------------
            Prepare & Cleanup Data
@@ -203,6 +221,7 @@ BEGIN
         /* --------------------------------------------------------------------------
            Generating Reports
         -------------------------------------------------------------------------- */
+        -- Query 1: Find the Total Nr. of Customers and the Average Score
         SELECT
             @TotalCustomers = COUNT(*),
             @AvgScore = AVG(Score)
@@ -212,6 +231,7 @@ BEGIN
         PRINT('Total Customers from ' + @Country + ':' + CAST(@TotalCustomers AS NVARCHAR));
         PRINT('Average Score from ' + @Country + ':' + CAST(@AvgScore AS NVARCHAR));
 
+        -- Query 2: Find the Total Nr. of Orders and Total Sales
         SELECT
             COUNT(OrderID) AS TotalOrders,
             SUM(Sales) AS TotalSales,
@@ -233,6 +253,7 @@ BEGIN
         PRINT('Error Line: ' + CAST(ERROR_LINE() AS NVARCHAR));
         PRINT('Error Procedure: ' + ISNULL(ERROR_PROCEDURE(), 'N/A'));
     END CATCH;
+
 END
 GO
 
