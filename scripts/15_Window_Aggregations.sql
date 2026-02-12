@@ -1,6 +1,5 @@
-/* ==============================================================================
-   SQL Window Aggregate Functions
--------------------------------------------------------------------------------
+/* =======================SQL Window Aggregate Functions======
+
    These functions allow you to perform aggregate calculations over a set 
    of rows without the need for complex subqueries. They enable you to compute 
    counts, sums, averages, minimums, and maximums while still retaining access 
@@ -12,10 +11,8 @@
     3. AVG
     4. MAX / MIN
     5. ROLLING SUM & AVERAGE Use Case
-===============================================================================
-*/
-
-/* ============================================================
+==============================================================*/
+/* ===========================================================
    SQL WINDOW AGGREGATION | COUNT
    ============================================================ */
 

@@ -1,7 +1,6 @@
-/* ============================================================================== 
-   SQL Aggregate Functions
--------------------------------------------------------------------------------
-   This document provides an overview of SQL aggregate functions, which allow 
+/* ===========================SQL Aggregate Functions===========================
+   
+   0.This document provides an overview of SQL aggregate functions, which allow 
    performing calculations on multiple rows of data to generate summary results.
 
    Table of Contents:
@@ -13,12 +12,11 @@
         - MIN
      2. Grouped Aggregations
         - GROUP BY
-=================================================================================
-*/
-
-/* ============================================================================== 
+==============================================================================*/
+/*============================================================================
    BASIC AGGREGATE FUNCTIONS
-=============================================================================== */
+============================================================================== */
+use MyDatabase;
 
 -- Find the total number of customers
 SELECT COUNT(*) AS total_customers

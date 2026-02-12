@@ -1,6 +1,5 @@
-/* ==============================================================================
-   SQL Window Ranking Functions
--------------------------------------------------------------------------------
+/* ==========SQL Window Ranking Functions=====================
+   
    These functions allow you to rank and order rows within a result set 
    without the need for complex joins or subqueries. They enable you to assign 
    unique or non-unique rankings, group rows into buckets, and analyze data 
@@ -12,12 +11,10 @@
      3. DENSE_RANK
      4. NTILE
      5. CUME_DIST
-=================================================================================
-*/
-
-/* ============================================================
+===============================================================*/
+/*============================================================
    SQL WINDOW RANKING | ROW_NUMBER, RANK, DENSE_RANK
-   ============================================================ */
+===============================================================*/
 
 /* TASK 1:
    Rank Orders Based on Sales from Highest to Lowest

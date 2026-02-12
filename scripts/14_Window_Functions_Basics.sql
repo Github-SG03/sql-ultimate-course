@@ -1,13 +1,13 @@
-/* ==============================================================================
-   SQL Window Functions
--------------------------------------------------------------------------------
-   SQL window functions enable advanced calculations across sets of rows 
+/* ================================SQL Window Functions=======================
+   
+   1.SQL window functions enable advanced calculations across sets of rows 
    related to the current row without resorting to complex subqueries or joins.
-   This script demonstrates the fundamentals and key clauses of window functions,
+
+   2.This script demonstrates the fundamentals and key clauses of window functions,
    including the OVER, PARTITION, ORDER, and FRAME clauses, as well as common rules 
    and a GROUP BY use case.
 
-   Table of Contents:
+   3.Table of Contents:
      1. SQL Window Basics
      2. SQL Window OVER Clause
      3. SQL Window PARTITION Clause
@@ -15,10 +15,8 @@
      5. SQL Window FRAME Clause
      6. SQL Window Rules
      7. SQL Window with GROUP BY
-=================================================================================
-*/
-
-/* ==============================================================================
+===============================================================================*/
+/*=============================================================================
    SQL WINDOW FUNCTIONS | BASICS
 ===============================================================================*/
 
@@ -54,7 +52,7 @@ SELECT
     SUM(Sales) OVER () AS Total_Sales
 FROM Sales.Orders;
 
-/* ==============================================================================
+/* ============================================================================
    SQL WINDOW FUNCTIONS | PARTITION CLAUSE
 ===============================================================================*/
 
